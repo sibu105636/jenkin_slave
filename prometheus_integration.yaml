@@ -58,7 +58,7 @@ spec:
       - name: traefik
         securityContext:
           runAsUser: 99
-        image: reg-dhc.app.corpintra.net/example/traefik:1.3.6
+        image: registry_url/example/traefik:1.3.6
         args:
         - --file
         imagePullPolicy: Always
@@ -72,11 +72,7 @@ spec:
         securityContext:
           runAsNonRoot: true
           runAsUser: 1001
-        #image: reg-dhc.app.corpintra.net/example/prometheus:v1.2.1
-        image: reg-dhc.app.corpintra.net/example/prometheus:v2.0.0
-        #image : reg-dhc.app.corpintra.net/eedc_a_sakrish/prometheus-test:v1.2.1
-        #image: reg-dhc.app.corpintra.net/caas/prometheus:public-v2.2.1
-        #image: docker.io/prom/prometheus
+        image: registry_url/example/prometheus:v2.0.0
         #imagePullPolicy: Always
         imagePullPolicy: IfNotPresent
         args:
@@ -99,10 +95,7 @@ spec:
       - name: grafana
         securityContext:
           runAsNonRoot: true
-        #image:  reg-dhc.app.corpintra.net/mathaku/grafana
-        image:  reg-dhc-int.app.corpintra.net/eedc_a_sitripa/grafana:latest
-#        image: reg-dhc.app.corpintra.net/eedc_a_sakrish/grafana:5.0.0
-#        image: reg-dhc.app.corpintra.net/mathaku/grafana:v1.0
+        image:  registry_url/eedc_a_sitripa/grafana:latest
         imagePullPolicy: IfNotPresent
         #imagePullPolicy: Always
         ports:
@@ -206,27 +199,27 @@ data:
         metrics_path: /metrics
         static_configs:
           - targets:
-               - '53.244.203.28:9181'
+               - 'ip:9181'
       - job_name: 'quay-int-health-check'
         scrape_interval: 5s
         metrics_path: /metrics
         static_configs:
           - targets:
-               - '53.244.203.28:9182'
+               - 'ip:9182'
 
       - job_name: 'bitbucket-prod'
         scrape_interval: 30s
         metrics_path: /metrics
         static_configs:
           - targets:
-               - 's96dhcvm04.destr.corpintra.net:9191'
+               - 'ip:9191'
 
       - job_name: 'quay_prod_sanity'
         scrape_interval: 30s
         metrics_path: /metrics
         static_configs:
           - targets:
-               - 's96dhcvm04.destr.corpintra.net:9192'
+               - 'ip:9192'
 
       - job_name: 'bb-prom-prod'
         scrape_interval: 30s
@@ -237,17 +230,17 @@ data:
         params:
              token: ['production']
         static_configs:
-          - targets: ['git-dhc.app.corpintra.net']
+          - targets: ['url']
 
       - job_name: 'quay-prom-prod'
         scrape_interval: 30s
         metrics_path: /metrics
         static_configs:
           - targets:
-            - '53.18.167.227:9092'
-            - '53.18.167.228:9092'
-            - '53.18.231.42:9092'
-            - '53.18.231.43:9092'
+            - 'ip:9092'
+            - 'ip:9092'
+            - 'ip:9092'
+            - 'ip:9092'
 
 
         #
@@ -255,7 +248,7 @@ data:
       #  scheme: https
       #  kubernetes_sd_configs:
       #  - api_servers:
-      #    - "https://10.254.0.1:443"
+      #    - "https://ip:443"
       #    in_cluster: true
       #    role: node
       #    tls_config:
